@@ -133,15 +133,20 @@ function processProduct(num1, num2, callback) {
  * should return 3.
 */
 function processDuplicateFree(list, callback) {
-  const map1 = list.map(element => {
-    map1.forEach((elem, index) => {
-      if(map1 === elem){
-        map1.splice(index,1);
-      }
-    });
+  var temp = 0;
+  const newArray = list.map((list)=>{
+    if(temp !== list)
+    {
+      temp = list;
+      return temp;
+    }
   });
-  return callback(map1);
+  const newerArray = newArray.filter(element => element !== undefined);
+  return callback(newerArray);
 }
+
+
+
 
 /////////////// HIGHER-ORDER ARRAY METHODS ///////////////
 /////////////// HIGHER-ORDER ARRAY METHODS ///////////////
@@ -163,9 +168,11 @@ function processDuplicateFree(list, callback) {
  * [2] Invoking `lowerCaseStrings` with `['a', 'b', 'c' ]` will return `[ 'a', 'b', 'c' ]`.
 */
 function lowerCaseStrings(strings) {
-  return strings.forEach(element =>{
-    element.toLowerCase();
-  });
+  const newString =[];
+  strings.forEach((elem)=>{
+    newString.push(elem.toLowerCase());
+  })
+  return newString;
 }
 
 /**
@@ -183,8 +190,16 @@ function lowerCaseStrings(strings) {
  * 
  * [2] Invoking `isItAnApple` with `['a', 'b', 'c' ]` will return `[ false, false, false ]`.
 */
-function isItAnApple(/* code here */) {
-  /* code here */
+function isItAnApple(strings) {
+  const newString = strings.map((elem) =>{
+    if (elem === "apple"){
+      return elem = true;
+    }
+    else{
+      return elem = false;
+    }
+  });
+  return newString;
 }
 
 /**
@@ -203,8 +218,11 @@ function isItAnApple(/* code here */) {
  * 
  * [2] Invoking `removeApple` with `['a', 'b', 'c' ]` will return `[ 'a', 'b', 'c' ]`.
 */
-function removeApple(/* code here */) {
-  /* code here */
+function removeApple(strings) {
+  const noApple = strings.filter((notA) => {
+    return notA !== "apple"; 
+  });
+  return noApple;
 }
 
 /**
@@ -222,8 +240,11 @@ function removeApple(/* code here */) {
  * 
  * [2] Invoking `stringSmash` with `['a', 'b', 'c' ]` will return `abc`.
 */
-function stringSmash(/* code here */) {
-  /* code here */
+function stringSmash(strings) {
+  const smash = strings.reduce((total, data)=>{
+    return total += data;
+  });
+  return smash;
 }
 
 // A local community center is holding a fund raising 5k fun run and has invited
@@ -241,8 +262,8 @@ function stringSmash(/* code here */) {
  * @returns an array with all the runners' full names in the following format: "Smith, John".
  * The full names appear in the array in the same order the runners appear in the `runners` array.
 */
-function getFullNames(/* CODE HERE */) {
-  /* CODE HERE */
+function getFullNames(runners) {
+  return runners.map(elem => elem.last_name + ", " + elem.first_name);
 }
 
 /**
@@ -257,8 +278,9 @@ function getFullNames(/* CODE HERE */) {
  * @returns an array with all the runners' first names in ALL CAPS.
  * The first names appear in the array in the same order the runners appear in the `runners` array.
 */
-function firstNamesAllCaps(/* CODE HERE */) {
-  /* CODE HERE */
+function firstNamesAllCaps(runners) {
+  const runnerName = runners.map(elem => elem.first_name.toUpperCase());
+  return runnerName;
 }
 
 /**
@@ -275,8 +297,8 @@ function firstNamesAllCaps(/* CODE HERE */) {
  * @returns an array containing only the runners that use the given `tShirtSize`.
  * The runners in the array appear in the same order they appear in the `runners` array.
 */
-function getRunnersByTShirtSize(/* CODE HERE */) {
-  /* CODE HERE */
+function getRunnersByTShirtSize(runners, tShirtSize) {
+  return runners.filter(elem => elem.shirt_size === tShirtSize);
 }
 
 /**
@@ -290,8 +312,10 @@ function getRunnersByTShirtSize(/* CODE HERE */) {
  * @param runners array of runners like the one inside the /data/runners.js file.
  * @returns a number which is the sum of the donations by all runners.
 */
-function tallyUpDonations(/* CODE HERE */) {
-  /* CODE HERE */
+function tallyUpDonations(runners) {
+  return runners.reduce( (total,elem) =>{
+    return total += elem.donation;
+  },0);
 }
 
 /////////////// CLOSURES ///////////////
@@ -304,11 +328,13 @@ function tallyUpDonations(/* CODE HERE */) {
  * Study the code for counter1 and counter2. Answer the questions below.
  * 
  * 1. What is the difference between counter1 and counter2?
+ * Any code outside of counter2 can change the count. While in count 1 its only declared within the scope, so its safe.
  * 
  * 2. Which of the two uses a closure? How can you tell?
+ * Counter1
  * 
  * 3. In what scenario would the counter1 code be preferable? In what scenario would counter2 be better? 
- *
+ *counter1 would be better for a counter. Counter2 would be better if you wanted to add 1 to a specific number;
 */
 
 // counter1 code
@@ -349,8 +375,12 @@ function counter2() {
  * counter() // should return 0
  * etc
 */
-function counterMakerWithLimit(/* CODE HERE */) {
-  /* CODE HERE */
+function counterMakerWithLimit(max) {
+  let count = -1;
+  return function add() {
+    if(count < max){return count += 1;}
+    else{return count = 0;}
+  }
 }
 
 /////////////// END OF CHALLENGE ///////////////
